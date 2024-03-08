@@ -1,0 +1,9 @@
+com\example\weatherdata\model\ForecastDay.class
+com\example\weatherdata\model\DayData.class
+com\example\weatherdata\model\Forecast.class
+com\example\weatherdata\model\WeatherData.class
+com\example\weatherdata\model\Location.class
+com\example\weatherdata\model\Condition.class
+com\example\weatherdata\WeatherDataApplication.class
+com\example\weatherdata\service\WeatherService.class
+com\example\weatherdata\controller\WeatherController.class
