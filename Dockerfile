@@ -1,3 +1,8 @@
+FROM maven:3.8.4-openjdk-11 AS build
+WORKDIR /app
+COPY pom.xml .
+RUN mvn -B -DskipTests clean package
+
 # Start with a base image
 FROM adoptopenjdk/openjdk11:alpine-jre
 # Set the working
