@@ -2,12 +2,12 @@ package com.example.weatherdata.service;
 
 import com.example.weatherdata.model.TodayWeatherData;
 import com.example.weatherdata.model.WeatherData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,13 +15,16 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
 @CacheConfig(cacheNames = "weatherCache")
+@Slf4j
 public class WeatherService {
 
     @Value("${weather.api.key}")
@@ -64,10 +67,12 @@ public class WeatherService {
         return CompletableFuture.completedFuture(getWeatherData(location, date));
     }
 
-
     public TodayWeatherData getCurrentData(String latitude, String longitude) {
         String apiUrl = "https://api.weatherapi.com/v1/current.json?q=" + latitude + "," + longitude + "&key=" + weatherApiKey;
         ResponseEntity<TodayWeatherData> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.GET, null, TodayWeatherData.class);
+        log.info("response for {} is {}", apiUrl, responseEntity.getBody());
+        Objects.requireNonNull(responseEntity.getBody()).getLocation().setCity("Chennai");
+
         return responseEntity.getBody();
     }
 }
