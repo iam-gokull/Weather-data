@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/weather")
-@CrossOrigin(origins = "https://climacastweaherapp.netlify.app", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class WeatherController {
 
     @Autowired
@@ -23,6 +23,7 @@ public class WeatherController {
         List<WeatherData> weatherDataList = weatherService.getLast30DaysWeather(location);
         return ResponseEntity.ok(weatherDataList);
     }
+
 
     @GetMapping("/last7days")
     public ResponseEntity<List<WeatherData>> getLast7DaysWeather(@RequestParam String location) {
